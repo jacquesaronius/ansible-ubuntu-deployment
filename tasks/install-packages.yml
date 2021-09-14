@@ -1,0 +1,125 @@
+---
+- name: Install GIT ppa
+  command: add-apt-repository ppa:git-core/ppa
+  become: yes
+  tags: base-packages
+
+- name: Install OBS ppa
+  command: add-apt-repository ppa:obsproject/obs-studio
+  become: yes
+
+- name: Update APT cache
+  apt: 
+    update_cache: yes
+  become: yes
+
+- name: Install base packages
+  apt:
+    pkg: 
+      - gimp
+      - chrome-gnome-shell
+      - virtualbox
+      - git
+      - curl
+      - apt-transport-https
+      - ca-certificates
+      - gnupg
+      - lsb-release
+      - vim
+      - shotcut
+      - obs-studio
+      - keepassxc
+      - transmission
+      - lm-sensors
+  become: yes
+    
+- name: Download Powershell deb
+  get_url:
+    url: "https://packages.microsoft.com/config/ubuntu/{{ ansible_distribution_version }}/packages-microsoft-prod.deb"
+    dest: /tmp/packages-microsoft-prod.deb
+    
+- name: Install Powershell deb
+  apt:
+    deb: /tmp/packages-microsoft-prod.deb
+  become: yes
+  
+- name: Update APT cache
+  apt: 
+    update_cache: yes
+  become: yes
+  
+- name: Install Powershell packages
+  apt:
+    name: powershell
+  become: yes
+  
+
+- name: Install JetBrains snaps
+  community.general.snap:
+    name:
+      - pycharm-professional
+      - phpstorm
+      - intellij-idea-ultimate
+      - rider
+    classic: yes
+  become: yes
+
+- name: Install Skype snap
+  community.general.snap:
+    name:
+      - skype
+    classic: yes
+  become: yes
+
+- name: Install Teams snap
+  community.general.snap:
+    name:
+      - teams
+
+- name: Download Visual Studio Code Insiders
+  get_url:
+    url: https://code.visualstudio.com/sha/download?build=insider&os=linux-deb-x64
+    dest: /tmp/vscode.deb
+
+- name: Install Visual Studio Code Insiders
+  apt:
+    deb: /tmp/vscode.deb
+  become: yes
+
+- name: Remove Docker GPG key if it exists
+  file:
+    path: /usr/share/keyrings/docker-archive-keyring.gpg
+    state: absent
+  become: yes
+
+
+- name: Add Docker GPG key
+  shell: >
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+  become: yes
+  
+- name: Set permissions on Docker GPG key
+  file:
+    path: /usr/share/keyrings/docker-archive-keyring.gpg
+    mode: a+rw
+  become: yes
+
+- name: Install Docker repository
+  shell: >
+    echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  become: yes
+
+- name: Update APT cache
+  apt: 
+    update_cache: yes
+  become: yes
+
+- name: Install Docker packages
+  apt:
+    pkg: 
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+  become: yes
+  
+  

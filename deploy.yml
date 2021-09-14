@@ -1,0 +1,8 @@
+---
+- hosts: all
+  tasks:
+    - name: Install packages
+      include_tasks: ./tasks/install-packages.yml
+    
+    - name: Enable firewall
+      include_tasks: tasks/ufw.yml

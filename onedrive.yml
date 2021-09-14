@@ -1,0 +1,25 @@
+---
+- hosts: all
+  tasks:
+    - name: Get UID
+      command: id -u
+      register: uid
+  
+    - name: Get GID
+      command: id -g
+      register: gid
+
+    - name: Check if OneDrive conf volume exists
+      shell: >
+        {% raw %} docker volume list --format "{{.Name}}" | grep onedrive_conf{% endraw %}
+      register: onedrive_conf
+      ignore_errors: yes
+
+    - name: Create OneDrive conf volume
+      command: docker volume create onedrive_conf
+      when: onedrive_conf.stdout == ""
+  
+    - name: Create OneDrive folder
+      file:
+        path: "$HOME/OneDrive"
+        state: directory 

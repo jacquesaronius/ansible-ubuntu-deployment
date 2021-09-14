@@ -1,0 +1,10 @@
+---
+- hosts: all
+  tasks:
+  - name: Install Ansible Snap integration
+    command: ansible-galaxy collection install community.general
+    become: yes
+  
+  - name: Add ufw community module
+    command: ansible-galaxy collection install community.general
+    become: yes
