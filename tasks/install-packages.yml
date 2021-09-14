@@ -31,6 +31,9 @@
       - keepassxc
       - transmission
       - lm-sensors
+      - libreoffice
+      - vlc
+      - openjdk-11-jdk
   become: yes
     
 - name: Download Powershell deb
