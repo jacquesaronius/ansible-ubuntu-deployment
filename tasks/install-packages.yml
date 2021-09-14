@@ -34,6 +34,7 @@
       - libreoffice
       - vlc
       - openjdk-11-jdk
+      - aisleriot
   become: yes
     
 - name: Download Powershell deb
@@ -74,10 +75,12 @@
     classic: yes
   become: yes
 
-- name: Install Teams snap
+- name: Install other snaps
   community.general.snap:
     name:
       - teams
+      - spotify
+  become: yes
 
 - name: Download Visual Studio Code Insiders
   get_url:
