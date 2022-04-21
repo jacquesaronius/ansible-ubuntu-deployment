@@ -4,9 +4,9 @@
   become: yes
   tags: base-packages
 
-- name: Install OBS ppa
-  command: add-apt-repository ppa:obsproject/obs-studio
-  become: yes
+    #- name: Install OBS ppa
+    #command: add-apt-repository ppa:obsproject/obs-studio
+    #become: yes
 
 - name: Update APT cache
   apt: 
@@ -18,7 +18,7 @@
     pkg: 
       - gimp
       - chrome-gnome-shell
-      - virtualbox
+        #      - virtualbox
       - git
       - curl
       - apt-transport-https
@@ -37,36 +37,36 @@
       - aisleriot
   become: yes
     
-- name: Download Powershell deb
-  get_url:
-    url: "https://packages.microsoft.com/config/ubuntu/{{ ansible_distribution_version }}/packages-microsoft-prod.deb"
-    dest: /tmp/packages-microsoft-prod.deb
+    #- name: Download Powershell deb
+    #get_url:
+    #url: "https://packages.microsoft.com/config/ubuntu/{{ ansible_distribution_version }}/packages-microsoft-prod.deb"
+    #dest: /tmp/packages-microsoft-prod.deb
     
-- name: Install Powershell deb
-  apt:
-    deb: /tmp/packages-microsoft-prod.deb
-  become: yes
+    #- name: Install Powershell deb
+    #apt:
+    #deb: /tmp/packages-microsoft-prod.deb
+    #become: yes
   
 - name: Update APT cache
   apt: 
     update_cache: yes
   become: yes
   
-- name: Install Powershell packages
-  apt:
-    name: powershell
-  become: yes
+    #- name: Install Powershell packages
+    #apt:
+    #name: powershell
+    # become: yes
   
 
-- name: Install JetBrains snaps
-  community.general.snap:
-    name:
-      - pycharm-professional
-      - phpstorm
-      - intellij-idea-ultimate
-      - rider
-    classic: yes
-  become: yes
+    #- name: Install JetBrains snaps
+    #community.general.snap:
+    #name:
+      #- pycharm-professional
+        #- phpstorm
+        #- intellij-idea-ultimate
+        #- rider
+        #classic: yes
+        #become: yes
 
 - name: Install Skype snap
   community.general.snap:
