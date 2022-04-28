@@ -35,6 +35,7 @@
       - vlc
       - openjdk-11-jdk
       - aisleriot
+      - p7zip-full
   become: yes
     
     #- name: Download Powershell deb
