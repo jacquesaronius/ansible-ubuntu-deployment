@@ -37,6 +37,7 @@
       - aisleriot
       - p7zip-full
       - sshpass
+      - build-essential
   become: yes
     
     #- name: Download Powershell deb
