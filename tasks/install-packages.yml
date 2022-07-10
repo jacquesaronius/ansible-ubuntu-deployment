@@ -18,7 +18,7 @@
     pkg: 
       - gimp
       - chrome-gnome-shell
-        #      - virtualbox
+      - virtualbox
       - git
       - curl
       - apt-transport-https
@@ -38,6 +38,8 @@
       - p7zip-full
       - sshpass
       - build-essential
+      - flameshot
+      - gnome-tweaks
   become: yes
     
     #- name: Download Powershell deb
@@ -94,6 +96,7 @@
       - teams
       - spotify
       - p3x-onenote
+      - remmina
   become: yes
 
 - name: Download Visual Studio Code Insiders
@@ -144,6 +147,7 @@
       - docker-ce
       - docker-ce-cli
       - containerd.io
+      - docker-compose-plugin
   become: yes
   tags: docker
   
