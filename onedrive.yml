@@ -9,17 +9,21 @@
       command: id -g
       register: gid
 
-    - name: Check if OneDrive conf volume exists
-      shell: >
-        {% raw %} docker volume list --format "{{.Name}}" | grep onedrive_conf{% endraw %}
-      register: onedrive_conf
-      ignore_errors: yes
-
-    - name: Create OneDrive conf volume
-      command: docker volume create onedrive_conf
-      when: onedrive_conf.stdout == ""
-  
     - name: Create OneDrive folder
       file:
         path: "$HOME/OneDrive"
         state: directory 
+
+    - name: Create OneDrive conf folder
+      file:
+        path: "$HOME/.onedrive_conf"
+        state: directory 
+
+    - name: Pull latest docker image
+      command: docker pull driveone/onedrive:latest
+
+    #- name: Run Docker container
+    #  shell: docker run -it --restart unless-stopped --name onedrive -v $HOME/.onedrive_conf:/onedrive/conf -v "$HOME/OneDrive:/onedrive/data" driveone/onedrive:latest
+
+
+    
