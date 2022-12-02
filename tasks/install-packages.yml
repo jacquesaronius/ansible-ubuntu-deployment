@@ -29,12 +29,12 @@
       - shotcut
       - obs-studio
       - keepassxc
-      - transmission
+        #- transmission
       - lm-sensors
-        #- libreoffice
+      - libreoffice
       - vlc
+      - onedrive
       - openjdk-11-jdk
-      - aisleriot
       - p7zip-full
       - sshpass
       - build-essential
@@ -95,7 +95,7 @@
 - name: Install other snaps
   community.general.snap:
     name:
-      - teams
+      #- teams
       - spotify
       - p3x-onenote
       - remmina
