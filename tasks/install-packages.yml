@@ -18,7 +18,7 @@
     pkg: 
       - gimp
         #- chrome-gnome-shell
-        #- virtualbox
+      - virtualbox
       - git
       - curl
       - apt-transport-https
@@ -44,15 +44,15 @@
         #- gnome-tweaks
   become: yes
     
-    #- name: Download Powershell deb
-    #get_url:
-    #url: "https://packages.microsoft.com/config/ubuntu/{{ ansible_distribution_version }}/packages-microsoft-prod.deb"
-    #dest: /tmp/packages-microsoft-prod.deb
+- name: Download Powershell deb
+  get_url:
+    url: "https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb"
+    dest: /tmp/packages-microsoft-prod.deb
     
-    #- name: Install Powershell deb
-    #apt:
-    #deb: /tmp/packages-microsoft-prod.deb
-    #become: yes
+- name: Install Powershell deb
+  apt:
+    deb: /tmp/packages-microsoft-prod.deb
+  become: yes
   
 - name: Fix Lid switch
   lineinfile:
@@ -67,10 +67,10 @@
     update_cache: yes
   become: yes
   
-    #- name: Install Powershell packages
-    #apt:
-    #name: powershell
-    # become: yes
+- name: Install Powershell packages
+  apt:
+    name: powershell
+    become: yes
   
 
     #- name: Install JetBrains snaps
