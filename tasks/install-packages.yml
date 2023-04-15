@@ -18,7 +18,6 @@
     pkg: 
       - gimp
         #- chrome-gnome-shell
-      - virtualbox
       - git
       - curl
       - apt-transport-https
@@ -33,13 +32,10 @@
       - lm-sensors
       - libreoffice
       - vlc
-      - onedrive
       - openjdk-11-jdk
       - p7zip-full
       - sshpass
       - build-essential
-      - flameshot
-      - podman
       - htop
         #- gnome-tweaks
   become: yes
@@ -54,13 +50,13 @@
     deb: /tmp/packages-microsoft-prod.deb
   become: yes
   
-- name: Fix Lid switch
-  lineinfile:
-    path: /etc/systemd/logind.conf
-    regexp: '^#HandleLidSwitch='
-    line: HandleLidSwitch=ignore
-  become: yes
-  tags: lid
+    #- name: Fix Lid switch
+    #lineinfile:
+    #path: /etc/systemd/logind.conf
+    #regexp: '^#HandleLidSwitch='
+    #line: HandleLidSwitch=ignore
+    #become: yes
+    #tags: lid
 
 - name: Update APT cache
   apt: 
@@ -70,7 +66,7 @@
 - name: Install Powershell packages
   apt:
     name: powershell
-    become: yes
+  become: yes
   
 
     #- name: Install JetBrains snaps
@@ -83,23 +79,23 @@
         #classic: yes
         #become: yes
 
-- name: Install Skype Android studio snaps and .Net Core snaps
-  community.general.snap:
-    name:
-      - skype
-      - android-studio
-      - dotnet-sdk
-    classic: yes
-  become: yes
+#- name: Install Skype Android studio snaps and .Net Core snaps
+#  community.general.snap:
+#   name:
+#     - skype
+#     - android-studio
+#     - dotnet-sdk
+#   classic: yes
+#  become: yes
 
-- name: Install other snaps
-  community.general.snap:
-    name:
+    #- name: Install other snaps
+    #community.general.snap:
+    #name:
       #- teams
-      - spotify
-      - p3x-onenote
-      - remmina
-  become: yes
+      #- spotify
+      #- p3x-onenote
+      #- remmina
+      #  become: yes
 
 - name: Download Visual Studio Code Insiders
   get_url:
@@ -111,46 +107,46 @@
     deb: /tmp/vscode.deb
   become: yes
 
-  #- name: Remove Docker GPG key if it exists
-  #file:
-  #  path: /usr/share/keyrings/docker-archive-keyring.gpg
-  #  state: absent
-  #become: yes
-  #tags: docker
+- name: Remove Docker GPG key if it exists
+  file:
+    path: /usr/share/keyrings/docker-archive-keyring.gpg
+    state: absent
+  become: yes
+  tags: docker
 
-  #- name: Add Docker GPG key
-  #shell: >
-  #  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-  #become: yes
-  #tags: docker
+- name: Add Docker GPG key
+  shell: >
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+  become: yes
+  tags: docker
+
+- name: Set permissions on Docker GPG key
+  file:
+    path: /usr/share/keyrings/docker-archive-keyring.gpg
+    mode: a+rw
+  become: yes
+  tags: docker
   
-  #- name: Set permissions on Docker GPG key
-  #file:
-  #  path: /usr/share/keyrings/docker-archive-keyring.gpg
-  #  mode: a+rw
-  #become: yes
-  #tags: docker
+- name: Install Docker repository
+  shell: >
+    echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu jammy stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  become: yes
+  tags: docker
 
-  #- name: Install Docker repository
-  #shell: >
-  #  echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-  #become: yes
-  #tags: docker
+- name: Update APT cache
+  apt: 
+    update_cache: yes
+  become: yes
+  tags: docker
 
-  #- name: Update APT cache
-  #apt: 
-  #  update_cache: yes
-  #become: yes
-  #tags: docker
-
-  #- name: Install Docker packages
-  #apt:
-  #  pkg: 
-  #    - docker-ce
-  #    - docker-ce-cli
-  #    - containerd.io
-  #    - docker-compose-plugin
-  #become: yes
-  #tags: docker
+- name: Install Docker packages
+  apt:
+    pkg: 
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-compose-plugin
+  become: yes
+  tags: docker
   
   
