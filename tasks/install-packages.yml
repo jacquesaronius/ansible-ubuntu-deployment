@@ -30,7 +30,7 @@
       - keepassxc
         #- transmission
       - lm-sensors
-      - libreoffice
+        #- libreoffice
       - vlc
       - openjdk-11-jdk
       - p7zip-full
@@ -79,23 +79,22 @@
         #classic: yes
         #become: yes
 
-#- name: Install Skype Android studio snaps and .Net Core snaps
-#  community.general.snap:
-#   name:
-#     - skype
-#     - android-studio
-#     - dotnet-sdk
-#   classic: yes
-#  become: yes
+- name: Install Skype Android studio snaps and .Net Core snaps
+  community.general.snap:
+    name:
+      - skype
+      - android-studio
+      - dotnet-sdk
+    classic: yes
+  become: yes
 
-    #- name: Install other snaps
-    #community.general.snap:
-    #name:
-      #- teams
-      #- spotify
-      #- p3x-onenote
-      #- remmina
-      #  become: yes
+- name: Install other snaps
+  community.general.snap:
+    name:
+      - spotify
+      - p3x-onenote
+      - remmina
+  become: yes
 
 - name: Download Visual Studio Code Insiders
   get_url:
